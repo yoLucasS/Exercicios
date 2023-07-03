@@ -1,0 +1,301 @@
+unit U_Ex07;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TFormEx07 = class(TForm)
+    lbFila1: TListBox;
+    lbFila2: TListBox;
+    lbPilha: TListBox;
+    btnGerar: TButton;
+    procedure BtnGerar1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormEx07: TFormEx07;
+
+implementation
+
+{$R *.dfm}
+
+type
+  TPessoa = class
+    Nome: String;
+  end;
+
+  TCelula = class
+    Item: TPessoa;
+    Prox: TCelula;
+  end;
+
+  TPilha = class
+  private
+    function CreateCelula: TCelula;
+  public
+    Head: TCelula;
+    procedure CreateHead;
+    procedure Clear;
+    constructor Create;
+    destructor Destroy; override;
+    procedure StackUp(Item: TPessoa);
+    function Unstack: TPessoa;
+    function Count: Integer;
+  end;
+
+  TFila = class
+  private
+    function CreateCelula: TCelula;
+  public
+    Head: TCelula;
+    Tail: TCelula;
+    procedure CreateHead;
+    procedure Clear;
+    constructor Create;
+    destructor Destroy; override;
+    procedure Enqueue(Item: TPessoa);
+    function Dequeue: TPessoa;
+    function Count: Integer;
+    function VerificarDiferencas(Fila: TFila): TPilha;
+  end;
+
+function TFila.CreateCelula: TCelula;
+var
+  Cel: TCelula;
+begin
+  Cel := TCelula.Create;
+  Cel.Item := nil;
+  Cel.Prox := nil;
+  Result := Cel;
+end;
+
+constructor TFila.Create;
+begin
+  inherited;
+  CreateHead;
+end;
+
+destructor TFila.Destroy;
+begin
+  Clear;
+  Self.Head.Destroy;
+  inherited;
+end;
+
+procedure TFila.Clear;
+var
+  Pessoa: TPessoa;
+begin
+  while Self.Head.Prox <> nil do
+  begin
+    Pessoa := Dequeue;
+    Pessoa.Destroy;
+  end;
+end;
+
+procedure TFila.CreateHead;
+begin
+  Self.Head := CreateCelula;
+end;
+
+procedure TFila.Enqueue(Item: TPessoa);
+var
+  Cel: TCelula;
+begin
+  Cel := CreateCelula;
+  Cel.Item := Item;
+  Cel.Prox := nil;
+  if Self.Head.Prox = nil then
+    Self.Head.Prox := Cel
+  else
+    Self.Tail.Prox := Cel;
+  Self.Tail := Cel;
+end;
+
+function TFila.Dequeue: TPessoa;
+var
+  Cel: TCelula;
+begin
+  Cel := Self.Head.Prox;
+  if Cel = nil then
+    Exit(nil);
+  Self.Head.Prox := Cel.Prox;
+  if Cel = Self.Tail then
+    Self.Tail := nil;
+  Result := Cel.Item;
+  Cel.Destroy;
+end;
+
+function TFila.Count: Integer;
+var
+  i: Integer;
+  Cel: TCelula;
+begin
+  Cel := Self.Head.Prox;
+  i := 0;
+  while Cel <> nil do
+  begin
+    i := i + 1;
+    Cel := Cel.Prox;
+  end;
+  Result := i;
+end;
+
+function TFila.VerificarDiferencas(Fila: TFila): TPilha;
+var
+  Item: TPessoa;
+  Cel: TCelula;
+begin
+  Result := TPilha.Create;
+  Cel := Self.Head.Prox;
+  while Cel <> nil do
+  begin
+    Item := Cel.Item;
+    if Fila.Count = 0 then
+      Result.StackUp(Item)
+    else if not CompareMem(Item, Fila.Head.Prox.Item, SizeOf(TPessoa)) then
+      Result.StackUp(Item);
+    Cel := Cel.Prox;
+  end;
+end;
+
+function TPilha.CreateCelula: TCelula;
+var
+  Cel: TCelula;
+begin
+  Cel := TCelula.Create;
+  Cel.Item := nil;
+  Cel.Prox := nil;
+  Result := Cel;
+end;
+
+constructor TPilha.Create;
+begin
+  inherited;
+  CreateHead;
+end;
+
+destructor TPilha.Destroy;
+begin
+  Clear;
+  Self.Head.Destroy;
+  inherited;
+end;
+
+procedure TPilha.CreateHead;
+begin
+  Self.Head := CreateCelula;
+end;
+
+procedure TPilha.Clear;
+var
+  Pessoa: TPessoa;
+begin
+  while Self.Head.Prox <> nil do
+  begin
+    Pessoa := Unstack;
+    Pessoa.Destroy;
+  end;
+end;
+
+procedure TPilha.StackUp(Item: TPessoa);
+var
+  Cel: TCelula;
+begin
+  Cel := CreateCelula;
+  Cel.Item := Item;
+  Cel.Prox := Self.Head.Prox;
+  Self.Head.Prox := Cel;
+end;
+
+function TPilha.Unstack: TPessoa;
+var
+  Cel: TCelula;
+begin
+  Cel := Self.Head.Prox;
+  Self.Head.Prox := Cel.Prox;
+  Result := Cel.Item;
+  Cel.Destroy;
+end;
+
+function TPilha.Count: Integer;
+var
+  i: Integer;
+  Cel: TCelula;
+begin
+  Cel := Self.Head.Prox;
+  i := 0;
+  while Cel <> nil do
+  begin
+    i := i + 1;
+    Cel := Cel.Prox;
+  end;
+  Result := i;
+end;
+
+procedure TFormEx07.BtnGerar1Click(Sender: TObject);
+var
+  Fila1, Fila2: TFila;
+  Diferencas: TPilha;
+  Pessoa: TPessoa;
+  i: Integer;
+begin
+  Randomize;
+
+  Fila1 := TFila.Create;
+  Fila2 := TFila.Create;
+  Diferencas := TPilha.Create;
+
+  for i := 1 to 10 do
+  begin
+    Pessoa := TPessoa.Create;
+    Pessoa.Nome := IntToStr(Random(100));
+    Fila1.Enqueue(Pessoa);
+  end;
+
+  for i := 1 to 10 do
+  begin
+    Pessoa := TPessoa.Create;
+    Pessoa.Nome := IntToStr(Random(100));
+    Fila2.Enqueue(Pessoa);
+  end;
+
+  lbFila1.Items.Clear;
+  lbFila2.Items.Clear;
+
+  while Fila1.Count > 0 do
+  begin
+    Pessoa := Fila1.Dequeue;
+    lbFila1.Items.Add(Pessoa.Nome);
+  end;
+
+  while Fila2.Count > 0 do
+  begin
+    Pessoa := Fila2.Dequeue;
+    lbFila2.Items.Add(Pessoa.Nome);
+  end;
+
+  Diferencas := Fila1.VerificarDiferencas(Fila2);
+
+  lbPilha.Items.Clear;
+
+  while Diferencas.Count > 0 do
+  begin
+    Pessoa := Diferencas.Unstack;
+    lbPilha.Items.Add(Pessoa.Nome);
+  end;
+
+  Fila1.Free;
+  Fila2.Free;
+  Diferencas.Free;
+end;
+
+end.

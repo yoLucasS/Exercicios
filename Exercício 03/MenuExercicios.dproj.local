@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/06/21 15:47:17.000.507,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/06/21 15:47:28.000.775,C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\U_MenuExercicios.dfm</Transaction>
+    <Transaction>2023/06/21 15:47:28.000.775,C:\Users\User\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\U_MenuExercicios.pas</Transaction>
+    <Transaction>2023/06/21 15:47:35.000.320,C:\Users\User\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\MenuExercicios.dproj</Transaction>
+    <Transaction>2023/06/21 15:48:21.000.162,=C:\Users\User\Downloads\Exercicios\Exercício 01\Unit1.pas</Transaction>
+    <Transaction>2023/06/21 15:49:48.000.560,=C:\Users\User\Downloads\Exercicios\Exercício 02\U_Ex2.pas</Transaction>
+    <Transaction>2023/06/21 15:52:59.000.038,=C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\Unit2.pas</Transaction>
+    <Transaction>2023/06/21 15:53:47.000.208,C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\Unit2.dfm=C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\U_Ex3.dfm</Transaction>
+    <Transaction>2023/06/21 15:53:47.000.208,C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\Unit2.pas=C:\Users\User\Documents\Embarcadero\Studio\Projects\Exercícios\U_Ex3.pas</Transaction>
+    <Transaction>2023/06/21 16:06:29.000.364,=C:\Users\User\Downloads\Maicon\Maicon\AppExemplo\Main.pas</Transaction>
+    <Transaction>2023/06/28 16:27:27.000.525,C:\Users\User\Downloads\Maicon\Maicon\AppExemplo\Main.pas=</Transaction>
+  </Transactions>
+</BorlandProject>

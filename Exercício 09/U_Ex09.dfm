@@ -1,0 +1,32 @@
+object FormEx09: TFormEx09
+  Left = 0
+  Top = 0
+  Caption = 'FormEx09'
+  ClientHeight = 172
+  ClientWidth = 169
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Position = poDesktopCenter
+  TextHeight = 15
+  object btnGerar: TButton
+    Left = 24
+    Top = 19
+    Width = 75
+    Height = 25
+    Caption = 'btnGerar'
+    TabOrder = 0
+    OnClick = btnGerarClick
+  end
+  object lbFila1: TListBox
+    Left = 24
+    Top = 59
+    Width = 121
+    Height = 97
+    ItemHeight = 15
+    TabOrder = 1
+  end
+end

@@ -1,0 +1,139 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.Generics.Collections,
+  Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  PPilha = ^TPilha;
+  TPilha = class
+  private
+    Lista: TList<string>;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Push(Item: string);
+    function Pop: string;
+    function Count: Integer;
+    function GetItemAtPosition(Position: Integer): string;
+  end;
+
+  TFormPilha = class(TForm)
+    lbedNome: TLabeledEdit;
+    btnInserir: TBitBtn;
+    lstPilha: TListBox;
+    listIndex: TListBox;
+    btnList: TBitBtn;
+    lbIndex: TLabeledEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnListClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    pilha: PPilha;
+  public
+  end;
+
+var
+  FormPilha: TFormPilha;
+
+implementation
+
+{$R *.dfm}
+
+constructor TPilha.Create;
+begin
+  Lista := TList<string>.Create;
+end;
+
+destructor TPilha.Destroy;
+begin
+  Lista.Free;
+  inherited;
+end;
+
+procedure TPilha.Push(Item: string);
+begin
+  Lista.Insert(0, Item);
+end;
+
+function TPilha.Pop: string;
+begin
+  if Lista.Count > 0 then
+  begin
+    Result := Lista[0];
+    Lista.Delete(0);
+  end
+  else
+    Result := '';
+end;
+
+function TPilha.Count: Integer;
+begin
+  Result := Lista.Count;
+end;
+
+function TPilha.GetItemAtPosition(Position: Integer): string;
+begin
+  if (Position >= 0) and (Position < Lista.Count) then
+    Result := Lista[Position]
+  else
+    Result := '';
+end;
+
+procedure TFormPilha.FormCreate(Sender: TObject);
+begin
+  pilha := New(PPilha);
+  pilha^ := TPilha.Create;
+  ReportMemoryLeaksOnShutdown := false;
+end;
+
+procedure TFormPilha.FormDestroy(Sender: TObject);
+begin
+  pilha^.Free;
+  Dispose(pilha);
+    pilha := nil;
+end;
+
+procedure TFormPilha.btnInserirClick(Sender: TObject);
+begin
+  if lbedNome.Text <> '' then
+  begin
+    pilha^.Push(lbedNome.Text);
+    lstPilha.Items.Insert(0, lbedNome.Text);
+    lbedNome.Clear;
+  end
+  else
+    ShowMessage('Digite um Nome!');
+end;
+
+procedure TFormPilha.btnListClick(Sender: TObject);
+var
+  Item: string;
+  Index: Integer;
+begin
+  listIndex.Clear;
+  if TryStrToInt(lbIndex.Text, Index) then
+  begin
+    Item := pilha^.GetItemAtPosition(Index);
+    if Item <> '' then
+      listIndex.Items.Add(Item)
+    else
+      ShowMessage('Índice não encontrado!');
+  end
+  else
+    ShowMessage('Índice inválido!');
+end;
+
+procedure TFormPilha.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    btnInserirClick(Self);
+end;
+
+end.

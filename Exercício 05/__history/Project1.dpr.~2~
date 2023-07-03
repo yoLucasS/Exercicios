@@ -1,0 +1,14 @@
+program Project1;
+
+uses
+  Vcl.Forms,
+  U_Ex05 in 'U_Ex05.pas' {FormEx05};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFormEx05, FormEx05);
+  Application.Run;
+end.

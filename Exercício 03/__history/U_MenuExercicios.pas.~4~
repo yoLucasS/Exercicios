@@ -1,0 +1,31 @@
+unit U_MenuExercicios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Unit1;
+
+type
+  TFormMenuExercicios = class(TForm)
+    pnl_Ex1: TPanel;
+    procedure pnl_Ex1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormMenuExercicios: TFormMenuExercicios;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFormMenuExercicios.pnl_Ex1Click(Sender: TObject);
+begin
+  FormPilha.ShowModal;
+end;
+
+end.
